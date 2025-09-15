@@ -4,6 +4,7 @@ import HomeView from '../views/HomeView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import ListPaymentView from '../views/payment/ListPaymentView.vue'
 import UpdatePaymentView from '../views/payment/UpdatePaymentView.vue'
+import CreatePaymentView from '@/views/payment/CreatePaymentView.vue'
 
 const routes = createRouter({
   history: createWebHistory(),
@@ -35,7 +36,7 @@ const routes = createRouter({
       },
     },
     {
-      path: 'payments/:id',
+      path: '/payments/:id',
       name: 'Payment',
       component: ListPaymentView,
       meta: {
@@ -43,7 +44,15 @@ const routes = createRouter({
       },
     },
     {
-      path: 'payments/:id/update',
+      path: '/payments/create',
+      name: 'CreatePayment',
+      component: CreatePaymentView,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: '/payments/:id/update',
       name: 'UpdatePayment',
       component: UpdatePaymentView,
       meta: {

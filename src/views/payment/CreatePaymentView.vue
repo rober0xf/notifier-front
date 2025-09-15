@@ -28,8 +28,8 @@ const createPayment = async () => {
         name: name.value,
         type: type.value,
         date: date.value.toISOString(),
-        recurrent: recurrent.value,
-        paid: paid.value,
+        recurrent: Boolean(recurrent.value),
+        paid: Boolean(paid.value),
       }),
     })
     if (response.ok) {
@@ -49,25 +49,14 @@ const createPayment = async () => {
   <main>
     <TitleComponent title="Create Payment" />
     <form @submit.prevent="createPayment">
-      <InputComponent label="User ID" id="user_id" name="user_id" v-model="user_id" />
-      <InputComponent label="Net Amount" id="net_amount" name="net_amount" v-model="net_amount" />
-      <InputComponent
-        label="Gross Amount"
-        id="gross_amount"
-        name="gross_amount"
-        v-model="gross_amount"
-      />
-      <InputComponent label="Deductible" id="deductible" name="deductible" v-model="deductible" />
-      <InputComponent label="Name" id="name" name="name" v-model="name" />
-      <InputComponent label="Type" id="type" name="type" v-model="type" />
+      <InputComponent label="User ID" id="user_id" name="user_id" type="number" v-model="user_id" />
+      <InputComponent label="Net Amount" id="net_amount" name="net_amount" type="number" v-model="net_amount" />
+      <InputComponent label="Gross Amount" id="gross_amount" name="gross_amount" type="number" v-model="gross_amount" />
+      <InputComponent label="Deductible" id="deductible" name="deductible" type="number" v-model="deductible" />
+      <InputComponent label="Name" id="name" name="name" v-model="name" type="text" />
+      <InputComponent label="Type" id="type" name="type" v-model="type" type="text" />
       <InputComponent label="Date" id="date" name="date" type="date" v-model="date" />
-      <InputComponent
-        label="Recurrent"
-        id="recurrent"
-        name="recurrent"
-        type="checkbox"
-        v-model="recurrent"
-      />
+      <InputComponent label="Recurrent" id="recurrent" name="recurrent" type="checkbox" v-model="recurrent" />
       <InputComponent label="Paid" id="paid" name="paid" type="checkbox" v-model="paid" />
       <ButtonComponent label="Create Payment" type="submit" />
     </form>

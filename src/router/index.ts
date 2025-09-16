@@ -5,6 +5,7 @@ import DashboardView from '../views/DashboardView.vue'
 import ListPaymentView from '../views/payment/ListPaymentView.vue'
 import UpdatePaymentView from '../views/payment/UpdatePaymentView.vue'
 import CreatePaymentView from '@/views/payment/CreatePaymentView.vue'
+import RegisterView from '@/views/RegisterView.vue'
 
 const routes = createRouter({
   history: createWebHistory(),
@@ -13,17 +14,33 @@ const routes = createRouter({
       path: '/',
       name: 'Home',
       component: HomeView,
+      meta: {
+        title: 'Notifier | Home',
+      },
     },
     {
       path: '/login',
       name: 'Login',
       component: LoginView,
+      meta: {
+        title: 'Notifier | Login',
+      },
     },
+    {
+      path: '/register',
+      name: 'Register',
+      component: RegisterView,
+      meta: {
+        title: 'Notifier | Register',
+      },
+    },
+
     {
       path: '/dashboard',
       name: 'Dashboard',
       component: DashboardView,
       meta: {
+        title: 'Notifier | Dashboard',
         requiresAuth: true,
       },
     },
@@ -32,6 +49,7 @@ const routes = createRouter({
       name: 'Payments',
       component: ListPaymentView,
       meta: {
+        title: 'Notifier | List payments',
         requiresAuth: true,
       },
     },
@@ -40,6 +58,7 @@ const routes = createRouter({
       name: 'Payment',
       component: ListPaymentView,
       meta: {
+        title: 'Notifier | Payment details',
         requiresAuth: true,
       },
     },
@@ -48,6 +67,7 @@ const routes = createRouter({
       name: 'CreatePayment',
       component: CreatePaymentView,
       meta: {
+        title: 'Notifier | Create payment',
         requiresAuth: true,
       },
     },
@@ -56,6 +76,7 @@ const routes = createRouter({
       name: 'UpdatePayment',
       component: UpdatePaymentView,
       meta: {
+        title: 'Notifier | Update payment',
         requiresAuth: true,
       },
     },
@@ -63,6 +84,10 @@ const routes = createRouter({
 })
 
 routes.beforeEach((to, from, next) => {
+  const meta = to.meta as { title?: string }
+  const defaultTitle = 'Default Title'
+  document.title = meta.title || defaultTitle
+
   const isAuthenticated = localStorage.getItem('token')
   if (to.matched.some((record) => record.meta.requiresAuth) && !isAuthenticated) {
     next({ name: 'Login' })

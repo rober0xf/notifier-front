@@ -2,12 +2,14 @@
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import LoginComponent from '@/components/LoginComponent.vue'
+import { useAuth } from '@/composables/useAuth'
 
 const email = ref('')
 const password = ref('')
 const errorMessage = ref('')
 const isLoading = ref(false)
 const router = useRouter()
+const { login: authLogin } = useAuth()
 
 // here we use the variables from the parent component
 const updateEmail = (value: string) => {
@@ -23,27 +25,27 @@ const login = async () => {
     errorMessage.value = 'fields missing!'
     return
   }
-
   isLoading.value = true
   errorMessage.value = ''
 
   try {
-    const response = await fetch('/api/login', {
+    const response = await fetch('http://localhost:3000/v1/users/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ email: email.value, password: password.value }),
     })
-    console.log('Response:', response)
     if (response.ok) {
       const res = await response.json()
-      localStorage.setItem('token', res.data)
+
+      authLogin(res.token)
       router.push({ name: 'Home' })
     } else {
+      const errorData = await response.text()
       errorMessage.value = 'Invalid email or password.'
     }
-  } catch {
+  } catch (error) {
     errorMessage.value = 'An error occurred while logging in.'
   } finally {
     isLoading.value = false
@@ -52,7 +54,7 @@ const login = async () => {
 </script>
 
 <template>
-  <main style="background-image: linear-gradient(115deg, #000000, #0f3d0f)">
+  <main>
     <LoginComponent
       :email="email"
       :password="password"

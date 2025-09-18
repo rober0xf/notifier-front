@@ -1,17 +1,10 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'TitleComponent',
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-  },
-})
+<script setup lang="ts">
+defineProps<{
+  title: string
+  class?: string
+}>()
 </script>
 
 <template>
-  <h1 class="text-4xl font-extrabold text-gray-800 tracking-wide leading-tight">{{ title }}</h1>
+<h1 :class="class">{{ title }}</h1>
 </template>

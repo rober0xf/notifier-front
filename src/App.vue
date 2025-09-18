@@ -1,26 +1,19 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
+import Navbar from './components/NavbarComponent.vue'
+import Footer from './components/FooterComponent.vue'
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50">
-    <header class="bg-white shadow-sm">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between py-6">
-          <h1 class="text-3xl font-bold text-gray-900">Notifier Front</h1>
-          <nav class="flex space-x-8">
-            <RouterLink to="/" class="rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900">Home</RouterLink>
-            <RouterLink to="/dashboard" class="rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900">Dashboard</RouterLink>
-            <RouterLink to="/login" class="rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900">Login</RouterLink>
-          </nav>
-        </div>
-      </div>
-    </header>
-
-    <main>
-      <RouterView />
-    </main>
-  </div>
+  <header class="p-2">
+    <Navbar />
+  </header>
+  <main class="flex min-h-screen items-center justify-center">
+    <RouterView />
+  </main>
+  <footer class="border-t-6 border-gray-800">
+    <Footer />
+  </footer>
 </template>
 
 <style>

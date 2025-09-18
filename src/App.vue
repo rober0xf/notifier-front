@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import Navbar from './components/NavbarComponent.vue'
-import Footer from './components/FooterComponent.vue'
+import NavbarView from '@/views/NavbarView.vue'
+import FooterView from '@/views/FooterView.vue'
 </script>
 
 <template>
   <header class="p-2">
-    <Navbar />
+    <NavbarView />
   </header>
   <main class="flex min-h-screen items-center justify-center">
     <RouterView />
   </main>
   <footer class="border-t-6 border-gray-800">
-    <Footer />
+    <FooterView />
   </footer>
 </template>
 

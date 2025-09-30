@@ -5,7 +5,7 @@ import DashboardView from '../views/DashboardView.vue'
 import ListPaymentView from '../views/payment/ListPaymentView.vue'
 import UpdatePaymentView from '../views/payment/UpdatePaymentView.vue'
 import CreatePaymentView from '@/views/payment/CreatePaymentView.vue'
-import RegisterView from '@/views/RegisterView.vue'
+import RegistrationView from '@/views/RegistrationView.vue'
 
 const routes = createRouter({
   history: createWebHistory(),
@@ -29,7 +29,7 @@ const routes = createRouter({
     {
       path: '/register',
       name: 'Register',
-      component: RegisterView,
+      component: RegistrationView,
       meta: {
         title: 'Notifier | Register',
       },

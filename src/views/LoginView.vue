@@ -39,7 +39,12 @@ const login = async () => {
     if (response.ok) {
       const res = await response.json()
 
+      // save for calling the list by email
+      localStorage.setItem('email', email.value)
+
+      // login with the token
       authLogin(res.user.token)
+
       router.push({ name: 'Home' })
     } else {
       errorMessage.value = 'Invalid email or password'

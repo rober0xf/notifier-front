@@ -33,14 +33,14 @@
           <td class="px-6 py-4">{{ payment.type }}</td>
           <td class="px-6 py-4">{{ payment.category }}</td>
           <td class="px-6 py-4">${{ payment.amount }}</td>
-          <td class="px-6 py-4">{{ payment.date.toLocaleDateString() }}</td>
-          <td class="px-6 py-4">{{ payment.due_date ? payment.due_date.toLocaleDateString() : '-' }}</td>
+          <td class="px-6 py-4">{{ formatDate(payment.date) }}</td>
+          <td class="px-6 py-4">{{ payment.due_date ? formatDate(payment.due_date) : '-' }}</td>
           <td class="px-6 py-4">
             <span :class="payment.paid ? 'text-green-600' : 'text-red-600'" class="font-medium">
               {{ payment.paid ? 'Paid' : 'Unpaid' }}
             </span>
           </td>
-          <td class="px-6 py-4">{{ payment.paid_at ? payment.paid_at.toLocaleDateString() : '-' }}</td>
+          <td class="px-6 py-4">{{ payment.paid_at ? formatDate(payment.paid_at) : '-' }}</td>
           <td class="px-6 py-4">
             <span :class="payment.recurrent ? 'text-blue-600' : 'text-gray-500'" class="font-medium">
               {{ payment.recurrent ? 'Yes' : 'No' }}
@@ -57,11 +57,22 @@
 </template>
 
 <script setup lang="ts">
-import type Payment from '@/composables/payment'
+import type Payment from '@/composables/payment';
 
 interface Props {
-  payments: Payment[]
+  payments?: Payment[];
 }
+const { payments = [] } = defineProps<Props>();
 
-defineProps<Props>()
+// format the dates
+const formatDate = (dateStr: string | null) => {
+  if (!dateStr) return '-';
+  const [year, month, day] = dateStr.split('-').map(Number);
+  const date = new Date(year, month - 1, day);
+  return date.toLocaleDateString('es-AR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
+};
 </script>

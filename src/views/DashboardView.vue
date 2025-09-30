@@ -1,21 +1,17 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import DashboardComponent from '@/components/DashboardComponent.vue'
-import type Payment from '@/composables/payment'
+import { onMounted } from 'vue';
+import DashboardComponent from '@/components/DashboardComponent.vue';
+import { usePayments } from '@/composables/getPayments';
 
-const payments = ref<Payment[]>([])
-
-const fetchPayments = async () => {
-  payments.value = []
-}
+const { listPayments, listPaymentsFetch } = usePayments();
 
 onMounted(() => {
-  fetchPayments()
-})
+  listPaymentsFetch();
+});
 </script>
 
 <template>
   <div>
-    <DashboardComponent :payments="payments" />
+    <DashboardComponent :payments="listPayments || []" />
   </div>
 </template>

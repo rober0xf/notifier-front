@@ -27,7 +27,6 @@ export function usePayments() {
         if (response.ok) {
           const res = await response.json();
           listPayments.value = res;
-          console.log('Payments fetched:', listPayments.value);
         } else {
           console.error('Error fetching payments:', await response.text());
         }

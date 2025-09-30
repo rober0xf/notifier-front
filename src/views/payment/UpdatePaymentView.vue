@@ -8,14 +8,16 @@ const route = useRoute()
 
 const paymentId = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id
 const user_id = ref(0)
-const net_amount = ref(0)
-const gross_amount = ref(0)
-const deductible = ref(0)
 const name = ref('')
+const amount = ref(0)
 const type = ref('')
+const category = ref('')
 const date = ref('')
-const recurrent = ref(false)
+const due_date = ref('')
 const paid = ref(false)
+const paid_at = ref('')
+const recurrent = ref(false)
+const frequency = ref('')
 const statusMessage = ref('')
 
 const getPayment = async () => {
@@ -98,22 +100,11 @@ onMounted(() => {
     <form @submit.prevent="updatePayment()">
       <InputComponent label="Name" id="name" name="name" v-model="name" />
       <InputComponent label="Net Amount" id="net_amount" name="net_amount" v-model="net_amount" />
-      <InputComponent
-        label="Gross Amount"
-        id="gross_amount"
-        name="gross_amount"
-        v-model="gross_amount"
-      />
+      <InputComponent label="Gross Amount" id="gross_amount" name="gross_amount" v-model="gross_amount" />
       <InputComponent label="Deductible" id="deductible" name="deductible" v-model="deductible" />
       <InputComponent label="Type" id="type" name="type" v-model="type" />
       <InputComponent label="Date" id="date" name="date" v-model="date" />
-      <InputComponent
-        label="Recurrent"
-        id="recurrent"
-        name="recurrent"
-        type="checkbox"
-        v-model="recurrent"
-      />
+      <InputComponent label="Recurrent" id="recurrent" name="recurrent" type="checkbox" v-model="recurrent" />
       <InputComponent label="Paid" id="paid" name="paid" type="checkbox" v-model="paid" />
     </form>
   </main>

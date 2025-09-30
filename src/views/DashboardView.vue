@@ -1,13 +1,21 @@
 <script setup lang="ts">
-import { defineComponent } from 'vue'
+import { ref, onMounted } from 'vue'
+import DashboardComponent from '@/components/DashboardComponent.vue'
+import type Payment from '@/composables/payment'
 
-defineComponent({
-  name: 'DashboardView',
+const payments = ref<Payment[]>([])
+
+const fetchPayments = async () => {
+  payments.value = []
+}
+
+onMounted(() => {
+  fetchPayments()
 })
 </script>
 
 <template>
   <div>
-    <h1>Dashboard</h1>
+    <DashboardComponent :payments="payments" />
   </div>
 </template>

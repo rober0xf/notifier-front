@@ -25,7 +25,14 @@ const handleLogout = () => {
     <div class="hidden md:block">
       <ul class="flex gap-3 xl:gap-7">
         <li v-for="link in NavbarLinks" :key="link.id">
-          <router-link :to="link.to" class="uppercase hover:text-[#fcc61d] xl:text-base">{{ link.label }}</router-link>
+          <component
+            :is="link.external ? 'a' : 'router-link'"
+            :href="link.external ? link.to : null"
+            :to="!link.external ? link.to : null"
+            rel="noopener noreferrer"
+            class="cursor-pointer uppercase hover:text-[#fcc61d] xl:text-base"
+            >{{ link.label }}</component
+          >
         </li>
         <li v-if="isAuthenticated">
           <router-link to="/dashboard" class="uppercase hover:text-[#fcc61d] xl:text-base">Dashboard</router-link>

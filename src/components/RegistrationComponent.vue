@@ -1,14 +1,3 @@
-<script setup lang="ts">
-defineOptions({
-  name: 'RegistrationPage',
-})
-import TermsAndConditions from '@/components/TermsCheckbox.vue'
-import { ref } from 'vue'
-import Button from '@/components/ButtonComponent.vue'
-
-const termsAccepted = ref(false)
-</script>
-
 <template>
   <div class="min-h-screen py-40">
     <div class="container mx-auto">
@@ -31,59 +20,80 @@ const termsAccepted = ref(false)
         <div class="w-full px-12 py-16 lg:w-1/2">
           <h2 class="-mt-4 text-center text-3xl font-medium text-gray-300">Register</h2>
           <p class="mt-6 mb-4 text-sm font-medium text-gray-300">Please fill out the form below to register.</p>
-          <form action="/#" method="POST">
+          <form method="POST" @submit.prevent="handleSubmit">
             <div class="gap-5">
-              <input
-                placeholder="Username"
+              <!-- inputs -->
+              <InputComponent
+                :modelValue="props.username"
+                @update:modelValue="(value) => emit('update:username', value)"
                 type="text"
                 id="username"
                 name="username"
                 class="border border-gray-400 px-2 py-1 font-medium text-white"
+                placeholder="Username"
                 required
               />
             </div>
             <div class="mt-5">
-              <input
-                placeholder="Email"
+              <InputComponent
+                :modelValue="props.email"
+                @update:modelValue="(value) => emit('update:email', value)"
                 type="email"
                 id="email"
                 name="email"
                 class="border border-gray-400 px-2 py-1 font-medium text-white"
+                placeholder="Email"
                 required
               />
             </div>
             <div class="mt-5">
-              <input
-                placeholder="Password"
+              <InputComponent
+                :modelValue="props.password"
+                @update:modelValue="(value) => emit('update:password', value)"
                 type="password"
                 id="password"
                 name="password"
                 class="border border-gray-400 px-2 py-1 font-medium text-white"
+                placeholder="Password"
                 required
               />
             </div>
             <div class="mt-5">
-              <input
-                placeholder="Confirm Password"
+              <InputComponent
+                :modelValue="props.confirmPassword"
+                @update:modelValue="(value) => emit('update:confirmPassword', value)"
                 type="password"
                 id="confirm_password"
                 name="confirm_password"
                 class="border border-gray-400 px-2 py-1 font-medium text-white"
+                placeholder="Confirm Password"
                 required
               />
             </div>
+
             <!-- terms and conditions -->
-            <TermsAndConditions v-model="termsAccepted" required />
+            <TermsAndConditions
+              :modelValue="props.termsAccepted || false"
+              @update:modelValue="(value) => emit('update:termsAccepted', value)"
+              required
+            />
+
+            <!-- error message-->
+            <div v-if="props.errorMessage" class="mt-4 p-3 text-center text-base font-semibold text-red-600 select-none">
+              {{ props.errorMessage }}
+            </div>
 
             <div class="mt-5">
               <Button
                 type="submit"
                 class="w-full cursor-pointer bg-green-800 py-3 text-center text-lg font-medium text-gray-200 duration-300 hover:bg-green-900"
-                label="Register"
+                :class="{ 'cursor-not-allowed opacity-50': props.isLoading }"
+                :disabled="props.isLoading"
+                :label="props.isLoading ? 'Registering...' : 'Register'"
               />
             </div>
             <p class="mt-10 text-sm font-medium text-gray-300">
-              Already have an account? <a href="/login" class="font-semibold text-sm text-blue-600 hover:underline">Login</a>
+              Already have an account? <a href="/login" class="text-sm font-semibold text-blue-600 hover:underline">Login</a>
             </p>
           </form>
         </div>
@@ -91,3 +101,32 @@ const termsAccepted = ref(false)
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import TermsAndConditions from '@/components/TermsCheckbox.vue'
+import InputComponent from '@/components/InputComponent.vue'
+import Button from '@/components/ButtonComponent.vue'
+
+const props = defineProps<{
+  username: string
+  email: string
+  password: string
+  confirmPassword: string
+  isLoading?: boolean
+  errorMessage?: string
+  termsAccepted?: boolean
+}>()
+
+const emit = defineEmits<{
+  'update:username': [value: string]
+  'update:email': [value: string]
+  'update:password': [value: string]
+  'update:confirmPassword': [value: string]
+  'update:termsAccepted': [value: boolean]
+  submit: []
+}>()
+
+const handleSubmit = () => {
+  emit('submit')
+}
+</script>

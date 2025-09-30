@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '../views/LoginView.vue'
 import HomeView from '../views/HomeView.vue'
 import DashboardView from '../views/DashboardView.vue'
-import ListPaymentView from '../views/payment/ListPaymentView.vue'
 import UpdatePaymentView from '../views/payment/UpdatePaymentView.vue'
 import CreatePaymentView from '@/views/payment/CreatePaymentView.vue'
 import RegistrationView from '@/views/RegistrationView.vue'
@@ -41,24 +40,6 @@ const routes = createRouter({
       component: DashboardView,
       meta: {
         title: 'Notifier | Dashboard',
-        requiresAuth: true,
-      },
-    },
-    {
-      path: '/payments',
-      name: 'Payments',
-      component: ListPaymentView,
-      meta: {
-        title: 'Notifier | List payments',
-        requiresAuth: true,
-      },
-    },
-    {
-      path: '/payments/:id',
-      name: 'Payment',
-      component: ListPaymentView,
-      meta: {
-        title: 'Notifier | Payment details',
         requiresAuth: true,
       },
     },

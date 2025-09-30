@@ -40,12 +40,12 @@ const updatePassword = (value: string) => {
         <label for="email" class="text-sm font-medium text-gray-700 underline">Email</label>
         <InputComponent
           :modelValue="email"
+          @update:modelValue="updateEmail"
           class="rounded-full border-2 bg-gray-200 px-4 py-2 font-semibold text-gray-900 outline-none"
           id="email"
           label="Email"
           type="email"
           placeholder="Enter your email"
-          @update:modelValue="updateEmail"
         />
       </div>
 
@@ -54,12 +54,12 @@ const updatePassword = (value: string) => {
         <label for="password" class="text-sm font-medium text-gray-700 underline">Password</label>
         <InputComponent
           :modelValue="password"
+          @update:modelValue="updatePassword"
           class="rounded-full border-2 bg-gray-200 px-4 py-2 font-semibold text-gray-900 outline-none"
           id="password"
           label="Password"
           type="password"
           placeholder="Enter your password"
-          @update:modelValue="updatePassword"
         />
       </div>
       <div class="mb-5">

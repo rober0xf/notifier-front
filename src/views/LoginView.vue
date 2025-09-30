@@ -39,14 +39,14 @@ const login = async () => {
     if (response.ok) {
       const res = await response.json()
 
-      authLogin(res.token)
+      authLogin(res.user.token)
       router.push({ name: 'Home' })
     } else {
-      const errorData = await response.text()
-      errorMessage.value = 'Invalid email or password.'
+      errorMessage.value = 'Invalid email or password'
     }
   } catch (error) {
-    errorMessage.value = 'An error occurred while logging in.'
+    errorMessage.value = 'An error occurred while logging in'
+    console.error(error)
   } finally {
     isLoading.value = false
   }

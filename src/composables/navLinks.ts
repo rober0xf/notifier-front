@@ -1,8 +1,8 @@
 const NavbarLinks = [
-  { id: 1, label: 'Home', to: '/' },
-  { id: 2, label: 'About', to: '/about' },
-  { id: 3, label: 'Development', to: '/development' },
-  { id: 4, label: 'Releases', to: '/releases' },
+  { id: 1, label: 'Home', to: '/', external: false },
+  { id: 2, label: 'Development', to: 'https://github.com/rober0xf/notifier', external: true },
+  { id: 3, label: 'Releases', to: 'https://github.com/rober0xf/notifier/releases', external: true },
+  { id: 4, label: 'About', to: '/about', external: false },
 ]
 
 export default NavbarLinks

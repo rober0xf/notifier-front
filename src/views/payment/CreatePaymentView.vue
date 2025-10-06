@@ -1,24 +1,42 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 
-const router = useRouter()
+const router = useRouter();
 
-const name = ref('')
-const amount = ref(0)
-const type = ref('')
-const category = ref('')
-const date = ref('')
+const name = ref('');
+const amount = ref(0);
+const type = ref('');
+const category = ref('');
+const date = ref('');
 
-const due_date = ref(null)
-const paid = ref(null)
-const paid_at = ref(null)
-const recurrent = ref(null)
-const frequency = ref(null)
-const receipt_url = ref(null)
-const statusMessage = ref('')
+const due_date = ref(null);
+const paid = ref(null);
+const paid_at = ref(null);
+const recurrent = ref(null);
+const frequency = ref(null);
+const receipt_url = ref(null);
+
+const statusMessage = ref('');
+
+watch(frequency, (newVal) => {
+  if (newVal) {
+    recurrent.value = true;
+  }
+});
+
+// relation frequency and checkbox
+watch(recurrent, (newVal) => {
+  if (newVal && !frequency.value) {
+    alert('Please set a frequency');
+  }
+  if (!newVal) {
+    frequency.value = '';
+  }
+});
 
 const createPayment = async () => {
+  statusMessage.value = '';
   try {
     const response = await fetch('http://localhost:3000/v1/auth/payments', {
       method: 'POST',
@@ -40,20 +58,27 @@ const createPayment = async () => {
         frequency: frequency.value || null,
         receipt_url: receipt_url.value || null,
       }),
-    })
+    });
+
     if (response.ok) {
-      const res = await response.json()
-      statusMessage.value = 'Payment created successfully'
-      console.log(res)
-      router.push('/dashboard')
+      const res = await response.json();
+      statusMessage.value = 'Payment created successfully';
+      console.log(res);
+      router.push('/dashboard');
     } else {
-      console.log('aca?')
-      console.error(await response.text())
+      let errorText;
+      try {
+        const data = await response.json();
+        errorText = data.message || JSON.stringify(data);
+      } catch {
+        errorText = await response.text();
+      }
+      statusMessage.value = `Error: ${errorText}`;
     }
   } catch (error) {
-    console.log(error)
+    statusMessage.value = `Error: ${error.message}`;
   }
-}
+};
 </script>
 
 <template>
@@ -231,10 +256,9 @@ const createPayment = async () => {
               <button type="submit" class="primary-btn text-lg">Create Payment</button>
             </div>
 
-            <div v-if="statusMessage" class="mt-4 px-4">
-              <div class="rounded border border-green-400 bg-green-100 px-4 py-3 text-green-700">
-                {{ statusMessage }}
-              </div>
+            <!-- error message if something is wrong -->
+            <div v-if="statusMessage" class="mt-2 text-center text-sm font-bold text-red-500 select-none">
+              {{ statusMessage }}
             </div>
           </form>
         </div>

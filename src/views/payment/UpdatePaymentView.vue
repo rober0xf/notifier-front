@@ -1,111 +1,73 @@
 <script setup lang="ts">
-import TitleComponent from '@/components/TitleComponent.vue'
-import InputComponent from '@/components/InputComponent.vue'
-import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import UpdatePaymentComponent from '@/components/UpdatePaymentComponent.vue';
 
-const route = useRoute()
+const route = useRoute();
+const paymentId = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id;
 
-const paymentId = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id
-const user_id = ref(0)
-const name = ref('')
-const amount = ref(0)
-const type = ref('')
-const category = ref('')
-const date = ref('')
-const due_date = ref('')
-const paid = ref(false)
-const paid_at = ref('')
-const recurrent = ref(false)
-const frequency = ref('')
-const statusMessage = ref('')
+const payment = ref(null);
+const loading = ref(true);
+const error = ref('');
 
-const getPayment = async () => {
+onMounted(async () => {
   try {
-    const response = await fetch(`/api/payments/${paymentId}`, {
+    const url = `http://localhost:3000/v1/auth/payments/${paymentId}`;
+    console.log('Fetching payment from:', url);
+
+    const response = await fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
-    })
+    });
+
+    console.log('Response status:', response.status);
+
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      const text = await response.text();
+      console.error('Received non-JSON response:', text.substring(0, 200));
+      throw new Error(`Server returned ${response.status}: Expected JSON but got ${contentType || 'HTML'}`);
+    }
 
     if (!response.ok) {
-      throw new Error('Failed to get payment')
+      const errorData = await response.json();
+      throw new Error(errorData.detail || `Failed to fetch payment`);
     }
 
-    const payment = await response.json()
-    user_id.value = payment.id
-    net_amount.value = payment.net_amount
-    gross_amount.value = payment.gross_amount
-    deductible.value = payment.deductible
-    name.value = payment.name
-    type.value = payment.type
-    date.value = payment.date
-    recurrent.value = payment.recurrent
-    paid.value = payment.paid
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      statusMessage.value = `Error getting payment: ${error.message}`
+    payment.value = await response.json();
+    console.log('Fetched payment:', payment.value);
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      error.value = err.message;
+      console.error('Error loading payment:', err);
     } else {
-      statusMessage.value = 'Unknown error occurred'
+      error.value = 'Unknown error occurred while loading payment';
     }
+  } finally {
+    loading.value = false;
   }
-}
-
-const updatePayment = async () => {
-  try {
-    const response = await fetch(`/api/payments/${paymentId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-      body: JSON.stringify({
-        id: user_id.value,
-        net_amount: net_amount.value,
-        gross_amount: gross_amount.value,
-        deductible: deductible.value,
-        name: name.value,
-        type: type.value,
-        date: date.value,
-        recurrent: recurrent.value,
-        paid: paid.value,
-      }),
-    })
-
-    if (!response.ok) {
-      throw new Error('Failed to update payment')
-    }
-
-    statusMessage.value = 'Payment updated successfully'
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      statusMessage.value = `Error updating payment: ${error.message}`
-    } else {
-      statusMessage.value = 'Unknown error occurred'
-    }
-  }
-}
-
-onMounted(() => {
-  getPayment()
-  console.log('Payment is mounted')
-})
+});
 </script>
 
 <template>
   <main>
-    <TitleComponent title="Update Payment" />
-    <form @submit.prevent="updatePayment()">
-      <InputComponent label="Name" id="name" name="name" v-model="name" />
-      <InputComponent label="Net Amount" id="net_amount" name="net_amount" v-model="net_amount" />
-      <InputComponent label="Gross Amount" id="gross_amount" name="gross_amount" v-model="gross_amount" />
-      <InputComponent label="Deductible" id="deductible" name="deductible" v-model="deductible" />
-      <InputComponent label="Type" id="type" name="type" v-model="type" />
-      <InputComponent label="Date" id="date" name="date" v-model="date" />
-      <InputComponent label="Recurrent" id="recurrent" name="recurrent" type="checkbox" v-model="recurrent" />
-      <InputComponent label="Paid" id="paid" name="paid" type="checkbox" v-model="paid" />
-    </form>
+    <div v-if="loading" class="flex min-h-screen items-center justify-center">
+      <p class="text-lg">loading payment data...</p>
+    </div>
+
+    <div v-else-if="error" class="mx-auto mt-10 max-w-2xl">
+      <div class="rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700">
+        <p class="font-bold">error loading payment:</p>
+        <p>{{ error }}</p>
+        <div class="mt-4">
+          <a href="/payments" class="text-blue-600 hover:underline">back to payments</a>
+        </div>
+      </div>
+    </div>
+
+    <UpdatePaymentComponent v-else :payment="payment" />
   </main>
 </template>

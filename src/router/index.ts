@@ -1,10 +1,10 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import LoginView from '../views/LoginView.vue'
-import HomeView from '../views/HomeView.vue'
-import DashboardView from '../views/DashboardView.vue'
-import UpdatePaymentView from '../views/payment/UpdatePaymentView.vue'
-import CreatePaymentView from '@/views/payment/CreatePaymentView.vue'
-import RegistrationView from '@/views/RegistrationView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import LoginView from '../views/LoginView.vue';
+import HomeView from '../views/HomeView.vue';
+import DashboardView from '../views/DashboardView.vue';
+import UpdatePaymentView from '@/views/payment/UpdatePaymentView.vue';
+import CreatePaymentView from '@/views/payment/CreatePaymentView.vue';
+import RegistrationView from '@/views/RegistrationView.vue';
 
 const routes = createRouter({
   history: createWebHistory(),
@@ -53,7 +53,7 @@ const routes = createRouter({
       },
     },
     {
-      path: '/payments/:id/update',
+      path: '/payments/:id/edit',
       name: 'UpdatePayment',
       component: UpdatePaymentView,
       meta: {
@@ -62,19 +62,19 @@ const routes = createRouter({
       },
     },
   ],
-})
+});
 
 routes.beforeEach((to, from, next) => {
-  const meta = to.meta as { title?: string }
-  const defaultTitle = 'Default Title'
-  document.title = meta.title || defaultTitle
+  const meta = to.meta as { title?: string };
+  const defaultTitle = 'Default Title';
+  document.title = meta.title || defaultTitle;
 
-  const isAuthenticated = localStorage.getItem('token')
+  const isAuthenticated = localStorage.getItem('token');
   if (to.matched.some((record) => record.meta.requiresAuth) && !isAuthenticated) {
-    next({ name: 'Login' })
+    next({ name: 'Login' });
   } else {
-    next()
+    next();
   }
-})
+});
 
-export default routes
+export default routes;

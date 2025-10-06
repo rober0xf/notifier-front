@@ -48,7 +48,7 @@
           </td>
           <td class="px-6 py-4">{{ payment.frequency || '-' }}</td>
           <td class="px-6 py-4 text-right">
-            <a href="#" class="font-medium text-blue-600 hover:underline">Edit</a>
+            <a :href="`/payments/${payment.id}/edit`" class="font-medium text-blue-600 hover:underline">Edit</a>
           </td>
         </tr>
       </tbody>

@@ -5,6 +5,7 @@ import DashboardView from '../views/DashboardView.vue';
 import UpdatePaymentView from '@/views/payment/UpdatePaymentView.vue';
 import CreatePaymentView from '@/views/payment/CreatePaymentView.vue';
 import RegistrationView from '@/views/RegistrationView.vue';
+import DeletePaymentView from '@/views/payment/DeletePaymentView.vue';
 
 const routes = createRouter({
   history: createWebHistory(),
@@ -58,6 +59,15 @@ const routes = createRouter({
       component: UpdatePaymentView,
       meta: {
         title: 'Notifier | Update payment',
+        requiresAuth: true,
+      },
+    },
+    {
+      path: '/payments/:id/delete',
+      name: 'DeletePayment',
+      component: DeletePaymentView,
+      meta: {
+        title: 'Notifier | Delete payment',
         requiresAuth: true,
       },
     },

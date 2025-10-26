@@ -78,9 +78,12 @@
               required
             />
 
-            <!-- error message-->
+            <!-- information messages -->
             <div v-if="props.errorMessage" class="mt-4 p-3 text-center text-base font-semibold text-red-600 select-none">
               {{ props.errorMessage }}
+            </div>
+            <div v-if="props.successMessage" class="mt-4 p-3 text-center text-base font-semibold text-green-600 select-none">
+              {{ props.successMessage }}
             </div>
 
             <div class="mt-5">
@@ -103,30 +106,31 @@
 </template>
 
 <script setup lang="ts">
-import TermsAndConditions from '@/components/TermsCheckbox.vue'
-import InputComponent from '@/components/InputComponent.vue'
-import Button from '@/components/ButtonComponent.vue'
+import TermsAndConditions from '@/components/TermsCheckbox.vue';
+import InputComponent from '@/components/InputComponent.vue';
+import Button from '@/components/ButtonComponent.vue';
 
 const props = defineProps<{
-  username: string
-  email: string
-  password: string
-  confirmPassword: string
-  isLoading?: boolean
-  errorMessage?: string
-  termsAccepted?: boolean
-}>()
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  isLoading?: boolean;
+  errorMessage?: string;
+  successMessage?: string;
+  termsAccepted?: boolean;
+}>();
 
 const emit = defineEmits<{
-  'update:username': [value: string]
-  'update:email': [value: string]
-  'update:password': [value: string]
-  'update:confirmPassword': [value: string]
-  'update:termsAccepted': [value: boolean]
-  submit: []
-}>()
+  'update:username': [value: string];
+  'update:email': [value: string];
+  'update:password': [value: string];
+  'update:confirmPassword': [value: string];
+  'update:termsAccepted': [value: boolean];
+  submit: [];
+}>();
 
 const handleSubmit = () => {
-  emit('submit')
-}
+  emit('submit');
+};
 </script>

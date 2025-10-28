@@ -1,10 +1,10 @@
 <script setup lang="ts">
 defineProps<{
-  modelValue?: boolean
-  required?: boolean
-}>()
+  modelValue?: boolean;
+  required?: boolean;
+}>();
 
-defineEmits(['update:modelValue'])
+defineEmits(['update:modelValue']);
 </script>
 
 <template>
@@ -13,7 +13,7 @@ defineEmits(['update:modelValue'])
       type="checkbox"
       class="border border-gray-400"
       :checked="modelValue"
-      @change="$emit('update:modelValue', $event.target.checked)"
+      @change="$emit('update:modelValue', ($event.target as HTMLInputElement).checked)"
       :required="required"
     />
     <span class="ml-2 font-medium text-white">

@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue'
+import { defineProps, defineEmits } from 'vue';
 
 const props = defineProps<{
-  type?: 'submit' | 'button' | 'reset'
-  label: string
-  class?: string
-  disabled?: boolean
-}>()
-const buttonType = props.type ?? 'submit'
+  type?: 'submit' | 'button' | 'reset';
+  label: string;
+  class?: string | object | Array<string | object>;
+  disabled?: boolean;
+}>();
+const buttonType = props.type ?? 'submit';
 
 const emit = defineEmits<{
-  click: [event: MouseEvent]
-}>()
+  click: [event: MouseEvent];
+}>();
 
 const handleClick = (event: MouseEvent) => {
-  emit('click', event)
-}
+  emit('click', event);
+};
 </script>
 
 <template>

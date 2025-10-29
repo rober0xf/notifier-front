@@ -10,7 +10,7 @@
       >
         <div
           class="relative flex w-full flex-col items-center bg-cover bg-center bg-no-repeat p-12 lg:w-1/2"
-          style="background-image: url('/src/images/registration.jpg')"
+          :style="{ backgroundImage: `url(${RegistrationImage})` }"
         >
           <h1 class="mb-3 text-3xl font-medium text-gray-300">Welcome</h1>
           <div>
@@ -106,6 +106,7 @@
 </template>
 
 <script setup lang="ts">
+import RegistrationImage from '@/images/registration.jpg'
 import TermsAndConditions from '@/components/TermsCheckbox.vue';
 import InputComponent from '@/components/InputComponent.vue';
 import Button from '@/components/ButtonComponent.vue';

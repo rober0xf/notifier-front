@@ -8,7 +8,7 @@ import RegistrationView from '@/views/RegistrationView.vue';
 import DeletePaymentView from '@/views/payment/DeletePaymentView.vue';
 
 const routes = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',

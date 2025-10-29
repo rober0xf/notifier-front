@@ -54,7 +54,7 @@ const handleRegistration = async (): Promise<void> => {
   }
 
   try {
-    const response = await fetch('http://localhost:3000/v1/users/register', {
+    const response = await fetch('/v1/users/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

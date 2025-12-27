@@ -35,6 +35,8 @@ const successMessage = ref('');
 const isLoading = ref(false);
 
 const router = useRouter();
+const LOCAL_URL = 'http://localhost:3000';
+
 
 const handleRegistration = async (): Promise<void> => {
   isLoading.value = true;
@@ -54,7 +56,7 @@ const handleRegistration = async (): Promise<void> => {
   }
 
   try {
-    const response = await fetch('/v1/users/register', {
+    const response = await fetch(`${LOCAL_URL}/v1/users/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -68,6 +70,7 @@ const handleRegistration = async (): Promise<void> => {
 
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {
+      console.error('registration failed:', data);
       throw new Error(data.error || `registration failed: ${response.status}`);
     }
     successMessage.value = 'email sent for verification. check your email';

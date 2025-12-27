@@ -16,8 +16,8 @@ import ButtonComponent from '@/components/ButtonComponent.vue'
           Keep an eye on your upcoming payments. <br />
           Track your bills, subscriptions, and purchases.
         </p>
-        <a href="/docs" class="primary-btn bg bg-gray-900 text-lg text-white transition duration-300 hover:bg-[#fcc61d] hover:text-gray-700">
-          Get Started
+        <a href="/register" class="primary-btn bg bg-gray-900 text-lg text-white transition duration-300 hover:bg-[#fcc61d] hover:text-gray-700">
+          Sign Up Now
         </a>
       </div>
 

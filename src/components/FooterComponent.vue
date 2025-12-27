@@ -6,7 +6,7 @@
     <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
       <div class="footer-item">
         <h2 class="mb-3 text-lg font-medium text-gray-400">About me</h2>
-        <p class="text-gray-300">Backend developer who likes<br />building in Go and Rust.</p>
+        <p class="text-gray-300">Backend developer who likes<br />building in Python and Go.</p>
       </div>
 
       <!-- links -->
@@ -15,9 +15,6 @@
         <ul>
           <li>
             <a class="text-gray-300 hover:underline" href="/" target="_blank" rel="noopener noreferrer"> Home </a>
-          </li>
-          <li>
-            <a class="text-gray-300 hover:underline" href="/about" target="_blank" rel="noopener noreferrer"> About </a>
           </li>
           <li>
             <a class="text-gray-300 hover:underline" href="https://github.com/rober0xf/notifier" target="_blank" rel="noopener noreferrer">

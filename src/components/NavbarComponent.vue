@@ -23,7 +23,7 @@ const handleLogout = () => {
 
     <!-- link section-->
     <div class="hidden md:block">
-      <ul class="flex gap-3 xl:gap-7">
+      <ul class="flex gap-3 xl:gap-15">
         <li v-for="link in NavbarLinks" :key="link.id">
           <component
             :is="link.external ? 'a' : 'router-link'"

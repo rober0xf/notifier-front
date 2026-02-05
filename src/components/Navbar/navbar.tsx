@@ -15,7 +15,7 @@ export const NavbarComponent = () => {
   };
 
   return (
-    <div className="container flex items-center justify-between py-4">
+    <div className=" flex items-center justify-between py-4">
       {/* logo section */}
       <div className="flex items-center gap-1">
         <Link to="/">
@@ -65,20 +65,18 @@ export const NavbarComponent = () => {
       </div>
 
       {/* button section */}
-      <div className="flex items-center gap-3">
-        {!isAuthenticated ? (
-          <Link to="/login" className="primary-btn cursor-pointer text-lg">
-            Log In
-          </Link>
-        ) : (
-          <Button
-            onClick={handleLogout}
-            type="button"
-            label="Log out"
-            className="primary-btn cursor-pointer text-lg"
-          />
-        )}
-      </div>
+      {!isAuthenticated ? (
+        <Link to="/login" className="primary-btn cursor-pointer text-lg mr-2">
+          Log In
+        </Link>
+      ) : (
+        <Button
+          onClick={handleLogout}
+          type="button"
+          label="Log out"
+          className="primary-btn cursor-pointer text-lg mr-2"
+        />
+      )}
     </div>
   );
 };

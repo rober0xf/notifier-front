@@ -139,21 +139,25 @@ export const CreatePaymentComponent = () => {
                 onChange={handleChange}
               />
 
-              <CheckboxInput
-                id="payment-paid"
-                label="Paid"
-                name="paid"
-                checked={payment.paid}
-                onChange={handleChange}
-              />
+              {/* MARGIN BETWEEN CHECKBOX */}
+              <div className="mt-4 flex space-x-6">
+                <CheckboxInput
+                  id="payment-paid"
+                  label="Paid"
+                  name="paid"
+                  checked={payment.paid}
+                  onChange={handleChange}
+                />
 
-              <CheckboxInput
-                id="payment-recurrent"
-                label="Recurrent"
-                name="recurrent"
-                checked={payment.recurrent}
-                onChange={handleChange}
-              />
+                <CheckboxInput
+                  id="payment-recurrent"
+                  label="Recurrent"
+                  name="recurrent"
+                  checked={payment.recurrent}
+                  onChange={handleChange}
+                />
+              </div>
+              {/* END MARGIN CHECKBOX */}
 
               <div className="mt-6 flex justify-center">
                 <button type="submit" className="primary-btn text-lg">

@@ -1,17 +1,35 @@
 import { useUpdatePayment } from "../../hooks";
-import type { Payment } from "../../types";
+import { CheckboxInput, SelectInput, TextInput } from "../CreatePayment";
 import { StatusMessageComponent } from "../StatusMessage";
-import { AmountPayment } from "./amount_payment";
-import { CategoryPayment } from "./category_payment";
-import { RecurrentForm } from "./recurrent_form";
-import { TypePayment } from "./type_payment";
 
-interface Props {
-  payment: Payment;
+interface UpdatePaymentProps {
+  paymentId: number;
 }
 
-export const UpdatePaymentComponent = ({ payment }: Props) => {
-  const { form, updateField, submit, status } = useUpdatePayment(payment);
+export const UpdatePaymentComponent = ({ paymentId }: UpdatePaymentProps) => {
+  const {
+    payment,
+    handleChange,
+    updatePayment,
+    statusMessage,
+    statusType,
+    isLoading,
+    isFetching,
+  } = useUpdatePayment(paymentId);
+
+  if (isFetching) {
+    return (
+      <section className="py-1">
+        <div className="mx-auto mt-6 w-full px-4 lg:w-8/12">
+          <div className="relative mb-6 flex w-full min-w-0 flex-col rounded-lg border-0 wrap-break-words shadow-lg">
+            <div className="p-6 text-center">
+              <p>Loading payment...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-1">
@@ -27,144 +45,146 @@ export const UpdatePaymentComponent = ({ payment }: Props) => {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                submit();
+                updatePayment();
               }}
             >
-              <h6 className="mt-3 mb-6 text-sm font-bold uppercase">
-                Necessary information
-              </h6>
-
               <div className="flex flex-wrap">
-                {/* name */}
-                <div className="w-full px-4 lg:w-6/12">
-                  <div className="relative mb-3 w-full">
-                    <label className="mb-2 block text-xs font-bold uppercase">
-                      Name
-                    </label>
-                    <input
-                      value={payment.name}
-                      disabled
-                      className="w-full rounded border-0 bg-white px-3 py-3 text-sm shadow"
-                    />
-                  </div>
-                </div>
-
-                <AmountPayment
-                  required
-                  value={form.amount}
-                  onChange={(v) => updateField("amount", v)}
+                <TextInput
+                  id="name"
+                  label="Name"
+                  name="name"
+                  value={payment.name}
+                  onChange={handleChange}
                 />
 
-                <TypePayment
-                  value={form.type}
-                  onChange={(v) => updateField("type", v)}
+                <TextInput
+                  id="amount"
+                  name="amount"
+                  label="Amount"
+                  value={payment.amount}
+                  onChange={handleChange}
                 />
 
-                <CategoryPayment
-                  value={form.category}
-                  onChange={(v) => updateField("category", v)}
+                <SelectInput
+                  id="type"
+                  name="type"
+                  label="Payment Type"
+                  value={payment.type}
+                  onChange={handleChange}
+                  options={[
+                    { label: "-- Select type --", value: "" },
+                    { label: "Expense", value: "expense" },
+                    { label: "Income", value: "income" },
+                    { label: "Subscription", value: "subscription" },
+                  ]}
                 />
-              </div>
 
-              {/* date */}
-              <div className="w-full px-4 lg:w-6/12">
-                <div className="relative mb-3 w-full">
-                  <label className="mb-2 block text-xs font-bold uppercase">
-                    Date
-                  </label>
-                  <input
-                    value={payment.date}
-                    type="date"
-                    disabled
-                    className="w-full rounded border-0 bg-white px-3 py-3 text-sm shadow"
-                  />
-                </div>
+                <SelectInput
+                  id="category"
+                  name="category"
+                  label="Payment Category"
+                  value={payment.category}
+                  onChange={handleChange}
+                  options={[
+                    { label: "-- Select category --", value: "" },
+                    { label: "Electronics", value: "electronics" },
+                    { label: "Entertainment", value: "entertainment" },
+                    { label: "Education", value: "education" },
+                    { label: "Clothing", value: "clothing" },
+                    { label: "Work", value: "work" },
+                    { label: "Sports", value: "sports" },
+                  ]}
+                />
+
+                <TextInput
+                  id="payment-date"
+                  name="date"
+                  label="Date"
+                  value={payment.date}
+                  type="date"
+                  onChange={handleChange}
+                />
               </div>
 
               <hr className="mt-6 border-b" />
-              <h6 className="mt-3 mb-6 text-sm font-bold uppercase">
-                Optional information
-              </h6>
-              <div className="flex flex-wrap">
-                {/* due date */}
-                <div className="w-full px-4 lg:w-6/12">
-                  <div className="relative mb-3 w-full">
-                    <label className="mb-2 block text-xs font-bold uppercase">
-                      Due Date
-                    </label>
-                    <input
-                      value={payment.due_date ?? ""}
-                      type="date"
-                      disabled
-                      className="w-full rounded border-0 bg-white px-3 py-3 text-sm shadow"
-                    />
-                  </div>
+              {statusMessage && (
+                <div className="mb-4">
+                  <StatusMessageComponent
+                    message={statusMessage}
+                    type={statusType}
+                  />
                 </div>
+              )}
 
-                {/* paid at */}
-                <div className="w-full px-4 lg:w-6/12">
-                  <div className="relative mb-3 w-full">
-                    <label className="mb-2 block text-xs font-bold uppercase">
-                      Paid At
-                    </label>
-                    <input
-                      value={payment.paid_at ?? ""}
-                      type="date"
-                      disabled
-                      className="w-full rounded border-0 bg-white px-3 py-3 text-sm shadow"
-                    />
-                  </div>
-                </div>
-
-                {/* frequency and recurrent */}
-                <RecurrentForm
-                  recurrent={form.recurrent}
-                  frequency={form.frequency}
-                  onRecurrentChange={(v) => updateField("recurrent", v)}
-                  onFrequencyChange={(v) => updateField("frequency", v)}
+              <div className="flex flex-wrap mt-4">
+                <TextInput
+                  id="payment-due-date"
+                  name="due_date"
+                  label="Due Date"
+                  value={payment.due_date ?? ""}
+                  type="date"
+                  onChange={handleChange}
                 />
 
-                {/* receipt URL */}
-                <div className="w-full px-4 lg:w-6/12">
-                  <div className="relative mb-3 w-full">
-                    <label className="mb-2 block text-xs font-bold uppercase">
-                      Receipt URL
-                    </label>
-                    <input
-                      type="url"
-                      value={form.receipt_url}
-                      placeholder="https://example.com/receipt"
-                      className="w-full rounded border-0 bg-white px-3 py-3 text-sm shadow"
-                    />
-                  </div>
-                </div>
-              </div>
+                <TextInput
+                  id="payment-paid-at"
+                  name="paid_at"
+                  label="Paid At"
+                  value={payment.paid_at ?? ""}
+                  type="date"
+                  onChange={handleChange}
+                />
 
-              {/* paid checkbox */}
-              <div className="w-full px-4 lg:w-6/12">
-                <div className="relative mb-3 w-full">
-                  <div className="flex items-center space-x-2">
-                    <input
-                      id="payment-paid"
-                      type="checkbox"
-                      checked={form.paid}
-                      onChange={(e) => updateField("paid", e.target.checked)}
-                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring focus:ring-blue-200"
-                    />
-                    <label
-                      htmlFor="payment-paid"
-                      className="text-xs font-bold uppercase"
-                    >
-                      Paid
-                    </label>
-                  </div>
+                <SelectInput
+                  id="payment-frequency"
+                  name="frequency"
+                  label="Frequency"
+                  value={payment.frequency ?? ""}
+                  onChange={handleChange}
+                  options={[
+                    { label: "-- None --", value: "" },
+                    { label: "Daily", value: "daily" },
+                    { label: "Weekly", value: "weekly" },
+                    { label: "Monthly", value: "monthly" },
+                    { label: "Yearly", value: "yearly" },
+                  ]}
+                />
+
+                <TextInput
+                  id="payment-receipt-url"
+                  name="receipt_url"
+                  label="Receipt URL"
+                  value={payment.receipt_url ?? ""}
+                  onChange={handleChange}
+                />
+
+                <div className="mt-4 flex space-x-6">
+                  <CheckboxInput
+                    id="payment-paid"
+                    name="paid"
+                    label="Paid"
+                    checked={payment.paid}
+                    onChange={handleChange}
+                  />
+
+                  <CheckboxInput
+                    id="payment-recurrent"
+                    name="recurrent"
+                    label="Recurrent"
+                    checked={payment.recurrent}
+                    onChange={handleChange}
+                  />
                 </div>
               </div>
 
               <hr className="mt-6 mb-6 border-b" />
               <div className="mt-6 flex justify-center gap-4 px-4">
-                <button type="submit" className="primary-btn text-lg">
-                  Update Payment
+                <button
+                  type="submit"
+                  className="primary-btn text-lg"
+                  disabled={isLoading}
+                >
+                  {isLoading ? "updating..." : "update payment"}
                 </button>
                 <a
                   href="/payments"
@@ -174,16 +194,6 @@ export const UpdatePaymentComponent = ({ payment }: Props) => {
                   Cancel{" "}
                 </a>
               </div>
-
-              {status.type === "error" && (
-                <StatusMessageComponent message={status.message} type="error" />
-              )}
-              {status.type === "success" && (
-                <StatusMessageComponent
-                  message={status.message}
-                  type="sucess"
-                />
-              )}
             </form>
           </div>
         </div>

@@ -1,34 +1,49 @@
 export type Frequency = "daily" | "weekly" | "monthly" | "yearly";
-export type Type = "income" | "expense" | "subscription" | "";
+export type Type = "income" | "expense" | "subscription";
 export type Category =
   | "electronics"
   | "entertainment"
   | "education"
   | "clothing"
   | "work"
-  | "sports"
-  | "";
+  | "sports";
+export type StatusType = "success" | "error";
 
 export interface Payment {
+  id: number;
+  user_id: number;
   amount: number;
   name: string;
   type: Type;
   category: Category;
   date: string;
-  due_date?: string | null;
+  due_date: string | null;
   paid: boolean;
-  paid_at?: string | null;
+  paid_at: string | null;
   recurrent: boolean;
-  frequency?: Frequency | null;
-  receipt_url?: string | null;
+  frequency: Frequency | null;
+  receipt_url: string | null;
 }
 
-export interface PaymentForm {
+export interface PaymentForm {}
+
+export interface PaymentFormState {
+  id: number;
+  user_id: number;
+  name: string;
   amount: number;
-  type: Payment["type"];
-  category: string;
+  type: Type | "";
+  category: Category | "";
+  date: string;
+  due_date: string | null;
   paid: boolean;
+  paid_at: string | null;
   recurrent: boolean;
-  frequency: Frequency | "";
-  receipt_url: string;
+  frequency: Frequency | null;
+  receipt_url: string | null;
 }
+
+export type CreatePaymentDTO = Omit<Payment, "id" | "user_id">;
+export type UpdatePaymentDTO = Partial<Omit<Payment, "id" | "user_id">> & {
+  id: number;
+};

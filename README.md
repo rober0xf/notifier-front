@@ -1,73 +1,108 @@
-# React + TypeScript + Vite
+<h1 align="center">
+    <img alt="project" title="#About" src="./public/assets/images/dashboard.png" />
+</h1>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<h1 align="center">
+  <a href="#"> Notifier </a>
+</h1>
 
-Currently, two official plugins are available:
+<p align="center">
+  <img alt="Stars" src="https://img.shields.io/github/stars/rober0xf/notifier-front">
+  <a href="https://github.com/rober0xf/notifier-front">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/rober0xf/notifier-front">
+  </a>
+    
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-brightgreen">
+  <a href="https://github.com/rober0xf/">
+    <img alt="made by rober0xf" src="https://img.shields.io/badge/made%20by-rober0xf%20-ff69b4">
+  </a>
+</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<h4 align="center">Status: Finished</h4>
 
-## React Compiler
+<p align="center">
+ <a href="#about">About</a> •
+ <a href="#features">Features</a> •
+ <a href="#how-it-works">How it works</a> • 
+ <a href="#tech-stack">Tech Stack</a> •  
+ <a href="#author">Author</a> • 
+ <a href="#user-content-license">License</a>
+</p>
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## About
 
-## Expanding the ESLint configuration
+Frontend for the payment notification system
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Features
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- [x] Users will be able to access via login and register
+- [x] Users will be able to manage payments:
+  - [x] add payments
+  - [x] see payments
+  - [x] update payments
+  - [x] delete payments
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## How it works
+
+The project is divided into two parts:
+
+1. Backend (another repo)
+2. Frontend (this repo)
+
+But this repository is referring only to the Frontend part. Frontend need the Backend to be running to work.
+
+### Pre-requisites
+
+Before you begin, you will need to have the following tools installed on your machine:
+[Git](https://git-scm.com), [Bun](https://bun.com/).
+In addition, it is good to have an editor to work with the code like [Neovim](https://neovim.io/)
+
+#### Running the web application (Frontend)
+
+```bash
+# Clone this repository
+$ git clone https://github.com/rober0xf/notifier-front.git
+
+# Access the project folder in your terminal
+$ cd notifier-front
+
+# Install the dependencies
+$ bun install
+
+# Run the application in development mode
+$ bun run dev
+
+# The application will open on the port: 5173 - go to http://localhost:5173
+
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Tech Stack
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+The following tools were used in the construction of the project:
+
+#### **Platform** ([React](https://reactjs.org/) + [TypeScript](https://www.typescriptlang.org/))
+
+- **[React Router Dom](https://reactrouter.com/)**
+- **[TailwindCSS](https://tailwindcss.com/)**
+- **[Prime Icons](https://www.npmjs.com/package/primeicons)**
+- **[Zustand](https://zustand.docs.pmnd.rs)**
+
+> See the file [package.json](https://github.com/rober0xf/notifier-front/blob/master/package.json)
+
+---
+
+## Author
+
+[![LinkedIn](https://img.shields.io/badge/rober0xf-LinkedIn-0A66C2?style=flat&logo=linkedin)](https://www.linkedin.com/in/rober0xf/)
+
+---
+
+## License
+
+This project is under the license [MIT](./LICENSE).

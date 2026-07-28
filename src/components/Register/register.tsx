@@ -6,6 +6,7 @@ import RegistrationImage from "/assets/images/registration.jpg";
 import { useRegister } from "../../hooks";
 import { StatusMessageComponent } from "../StatusMessage";
 import { GotoLoginComponent } from "./goto_login";
+import { GoogleAuthButton } from "../Login/google_auth";
 
 export function RegisterComponent() {
   const { values, setters, loading, error, success, submit } = useRegister();
@@ -119,7 +120,7 @@ export function RegisterComponent() {
                   type="error"
                 />
               )}
-              <StatusMessageComponent message={success} type="sucess" />
+              <StatusMessageComponent message={success} type="success" />
 
               <div className="mt-5">
                 <Button
@@ -132,6 +133,16 @@ export function RegisterComponent() {
 
               <GotoLoginComponent />
             </form>
+
+            {/* divider */}
+            <div className="flex items-center w-full gap-2 my-4">
+              <div className="flex-1 h-px bg-gray-600" />
+              <span className="text-sm text-gray-500">OR</span>
+              <div className="flex-1 h-px bg-gray-600" />
+            </div>
+
+            {/* google auth */}
+            <GoogleAuthButton text="signup_with" theme="filled_black" />
           </div>
         </div>
       </div>

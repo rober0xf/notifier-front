@@ -1,43 +1,26 @@
 import { useCallback, useEffect, useState } from "react";
 import type { Payment } from "../types";
 import { useAuthStore } from "../store";
-
-function getEmailFromToken(token: string): string | null {
-  try {
-    const payload = JSON.parse(atob(token.split(".")[1]));
-    return payload.email ?? null;
-  } catch {
-    return null;
-  }
-}
+import { API_BASE_URL } from "../services";
 
 export function usePayments() {
+  const user = useAuthStore((state) => state.user);
   const [payments, setPayments] = useState<Payment[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const fetchPayments = useCallback(async () => {
+    if (!user) return;
+
     try {
-      if (typeof window === "undefined") return;
       setLoading(true);
       setError(null);
 
-      const token = useAuthStore.getState().token;
-      const email = token ? getEmailFromToken(token) : null;
-      console.log("email: ", email);
-      if (!email) {
-        console.error("email not found in local storage");
-        return;
-      }
-
-      const url = `http://localhost:3000/v1/auth/payments/email?email=${encodeURIComponent(email)}`;
+      const url = `${API_BASE_URL}/v1/auth/payments/user/${user.id}}`;
 
       const response = await fetch(url, {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        credentials: "include",
       });
 
       if (!response.ok) {

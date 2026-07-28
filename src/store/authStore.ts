@@ -7,7 +7,13 @@ export type LoginPayload = {
   password: string;
 };
 
+type User = {
+  id: number;
+  email: string;
+};
+
 type AuthState = {
+  user: User | null;
   token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
@@ -20,6 +26,7 @@ type AuthState = {
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
+      user: null,
       token: null,
       isAuthenticated: false,
       isLoading: false,
@@ -32,7 +39,11 @@ export const useAuthStore = create<AuthState>()(
           const res = await loginRequest(data);
 
           set({
-            token: res.user.token,
+            user: {
+              id: res.id,
+              email: res.email,
+            },
+            token: res.token,
             isAuthenticated: true,
             isLoading: false,
             error: null,
@@ -40,13 +51,15 @@ export const useAuthStore = create<AuthState>()(
         } catch (err: any) {
           set({
             isLoading: false,
-            error: err.message,
+            error: err.message || "login failed",
+            isAuthenticated: false,
           });
         }
       },
 
       logout: () =>
         set({
+          user: null,
           token: null,
           isAuthenticated: false,
         }),

@@ -7,6 +7,7 @@ import { GotoRegisterComponent } from "./goto_register";
 import { StatusMessageComponent } from "../StatusMessage";
 import { ForgotPasswordComponent } from "./forgot_password";
 import { useNavigate } from "react-router-dom";
+import { GoogleAuthButton } from "./google_auth";
 
 export const LoginComponent = () => {
   const { login, isAuthenticated, isLoading, error } = useAuthStore();
@@ -90,6 +91,18 @@ export const LoginComponent = () => {
             className={`relative mx-auto flex cursor-pointer flex-col gap-4 rounded-md border-2 bg-[#fcc61d] px-4 py-2 text-center text-xl text-gray-900 shadow-xl shadow-gray-400 transition-colors duration-300 hover:bg-yellow-500 sm:w-37.5 md:w-50 ${isLoading ? "cursor-not-allowed opacity-50" : ""}`}
           />
         </form>
+
+        {/* divider */}
+        <div className="flex items-center w-full gap-2 my-2">
+          <div className="flex-1 h-px bg-gray-400" />
+          <span className="text-sm text-gray-500">OR</span>
+          <div className="flex-1 h-px bg-gray-400" />
+        </div>
+
+        {/* google login */}
+        <div>
+          <GoogleAuthButton text="signin_with" />
+        </div>
 
         {(localError || error) && (
           <StatusMessageComponent message={localError || error} type="error" />

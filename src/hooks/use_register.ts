@@ -34,7 +34,7 @@ export const useRegister = () => {
       setSuccess("email sent for verification. check your email");
 
       setTimeout(() => {
-        navigate("/login");
+        navigate("/");
       }, 3000);
     } catch (err) {
       setError(err instanceof Error ? err.message : "unknown error");

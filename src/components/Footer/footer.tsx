@@ -1,9 +1,9 @@
-interface FooterLink {
+export interface FooterLink {
   label: string;
   href: string;
 }
 
-interface SocialLink {
+export interface SocialLink {
   label: string;
   href: string;
   iconClass: string;

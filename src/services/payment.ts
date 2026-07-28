@@ -1,7 +1,6 @@
 import type { CreatePaymentDTO, Payment } from "../types/payment";
 
-const BASE_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:3000/v1/auth";
+export const API_BASE_URL = "http://localhost:3000";
 
 const parseError = async (response: Response): Promise<string> => {
   try {
@@ -16,7 +15,7 @@ export const createPayment = async (
   paymentData: CreatePaymentDTO,
   token: string,
 ): Promise<Payment> => {
-  const response = await fetch(`${BASE_URL}/payments`, {
+  const response = await fetch(`${API_BASE_URL}/v1/auth/payments`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -33,12 +32,10 @@ export const createPayment = async (
   return response.json();
 };
 
-export const getPayments = async (token: string): Promise<Payment[]> => {
-  const response = await fetch(`${BASE_URL}/payments`, {
+export const getPayments = async (userId: number): Promise<Payment[]> => {
+  const response = await fetch(`${API_BASE_URL}/v1/auth/payments/user/${userId}`, {
     method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    credentials: "include"
   });
 
   if (!response.ok) {
@@ -53,7 +50,7 @@ export const getPaymentById = async (
   id: number,
   token: string,
 ): Promise<Payment> => {
-  const response = await fetch(`${BASE_URL}/payments/${id}`, {
+  const response = await fetch(`${API_BASE_URL}/v1/auth/payments/${id}`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -73,7 +70,7 @@ export const updatePayment = async (
   paymentData: CreatePaymentDTO,
   token: string,
 ): Promise<Payment> => {
-  const response = await fetch(`${BASE_URL}/payments/${id}`, {
+  const response = await fetch(`${API_BASE_URL}/v1/auth/payments/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -94,7 +91,7 @@ export const deletePayment = async (
   id: number,
   token: string,
 ): Promise<void> => {
-  const response = await fetch(`${BASE_URL}/payments/${id}`, {
+  const response = await fetch(`${API_BASE_URL}/v1/auth/payments/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,

@@ -1,4 +1,4 @@
-import type { FooterLink, SocialLink } from "../types";
+import type { FooterLink, SocialLink } from "../components/Footer";
 
 export const footerConfig = {
   aboutTitle: "About me",
@@ -34,5 +34,5 @@ export const footerConfig = {
     },
   ] satisfies SocialLink[],
 
-  copyright: "© 2025 rober0xf. Feel free to use this code.",
+  copyright: "© 2026 rober0xf. Feel free to use this code.",
 } as const;
